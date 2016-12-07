@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>anna</groupId>
+    <artifactId>db-evolution</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <lqb.changeLogFile>liquibase/db.changelog-master.xml</lqb.changeLogFile>
+
+        <lqb.jdbcDriver>org.postgresql.Driver</lqb.jdbcDriver>
+        <lqb.dbUrl>jdbc:postgresql://localhost:5432/lure</lqb.dbUrl>
+        <lqb.dbUsername>postgres</lqb.dbUsername>
+        <lqb.dbPassword>root</lqb.dbPassword>
+        <lqb.prompt>true</lqb.prompt>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4.1207</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <changeLogFile>${lqb.changeLogFile}</changeLogFile>
+                    <driver>${lqb.jdbcDriver}</driver>
+                    <url>${lqb.dbUrl}</url>
+                    <username>${lqb.dbUsername}</username>
+                    <password>${lqb.dbPassword}</password>
+                    <promptOnNonLocalDatabase>${lqb.prompt}</promptOnNonLocalDatabase>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

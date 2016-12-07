@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
+                   logicalFilePath="changelog_create_lure_color_table.xml">
+
+    <changeSet id="changelog_create_lure_color_sequence.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists schemaName="public" sequenceName="S_LURE_COLOR_ID"></sequenceExists>
+            </not>
+        </preConditions>
+        <comment>Creating lure comment sequence</comment>
+
+        <createSequence incrementBy="1"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="S_LURE_COLOR_ID"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet id="changelog_create_lure_color_table.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="T_LURE_COLOR" schemaName="public"/>
+            </not>
+        </preConditions>
+        <comment>Creating lure comment table</comment>
+
+        <createTable tableName="T_LURE_COLOR" remarks="lure color">
+            <column name="A_COLOR_ID" type="NUMBER" remarks="Color id" defaultValueSequenceNext="S_LURE_COLOR_ID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_T_LURE_COLOR"></constraints>
+            </column>
+            <column name="A_COLOR_NAME" type="VARCHAR2(100)" remarks="Color name"></column>
+            <column name="A_COLOR_IMG" type="VARCHAR2(100)" remarks="Color image"></column>
+            <column name="A_LURE_ID" type="NUMBER" remarks="Reference to lure">
+                <constraints nullable="false" foreignKeyName="FK_T_LURE_COLOR" referencedTableName="T_LURE" referencedColumnNames="A_LURE_ID"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

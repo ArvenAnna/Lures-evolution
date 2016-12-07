@@ -1,0 +1,40 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
+                   logicalFilePath="changelog_lure_initial_table.xml">
+
+    <changeSet id="changelog_create_lure_sequence.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists schemaName="public" sequenceName="S_LURE_ID"></sequenceExists>
+            </not>
+        </preConditions>
+        <comment>Creating lure sequence</comment>
+
+        <createSequence incrementBy="1"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="S_LURE_ID"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet id="changelog_create_lure_table.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="T_LURE" schemaName="public"/>
+            </not>
+        </preConditions>
+        <comment>Creating lure table</comment>
+
+        <createTable tableName="T_LURE" remarks="lure">
+            <column name="A_LURE_ID" type="NUMBER" remarks="Lure id" defaultValueSequenceNext="S_LURE_ID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_T_LURE"></constraints>
+            </column>
+            <column name="A_LURE_PRODUCER" type="VARCHAR2(100)" remarks="Lure producer"></column>
+            <column name="A_LURE_NAME" type="VARCHAR2(100)" remarks="Lure name"></column>
+            <column name="A_LURE_PRICE" type="NUMBER" remarks="Lure price"></column>
+            <column name="A_LURE_DESC" type="TEXT" remarks="Lure description"></column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

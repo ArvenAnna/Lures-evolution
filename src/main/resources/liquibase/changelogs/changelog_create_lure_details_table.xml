@@ -1,0 +1,43 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
+                   logicalFilePath="changelog_create_lure_details_table.xml">
+
+    <changeSet id="changelog_create_lure_details_sequence.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists schemaName="public" sequenceName="S_LURE_DETAIL_ID"></sequenceExists>
+            </not>
+        </preConditions>
+        <comment>Creating lure comment sequence</comment>
+
+        <createSequence incrementBy="1"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="S_LURE_DETAIL_ID"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet id="changelog_create_lure_details_table.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="T_LURE_DETAIL" schemaName="public"/>
+            </not>
+        </preConditions>
+        <comment>Creating lure comment table</comment>
+
+        <createTable tableName="T_LURE_DETAIL" remarks="lure detail">
+            <column name="A_DETAIL_ID" type="NUMBER" remarks="Detail id" defaultValueSequenceNext="S_LURE_DETAIL_ID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_T_LURE_DETAIL"></constraints>
+            </column>
+            <column name="A_LENGTH" type="NUMBER" remarks="lure length"></column>
+            <column name="A_DEPTH" type="NUMBER" remarks="Lure depth"></column>
+            <column name="A_WEIGHT" type="NUMBER" remarks="Lure weight"></column>
+            <column name="A_TYPE" type="VARCHAR2(25)" remarks="Lure type"></column>
+            <column name="A_LURE_ID" type="NUMBER" remarks="Reference to lure">
+                <constraints nullable="false" foreignKeyName="FK_T_LURE_DETAIL" referencedTableName="T_LURE" referencedColumnNames="A_LURE_ID"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

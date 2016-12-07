@@ -1,0 +1,42 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
+                   logicalFilePath="changelog_create_lure_comment_table.xml">
+
+    <changeSet id="changelog_create_lure_comment_sequence.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists schemaName="public" sequenceName="S_LURE_COMMENT_ID"></sequenceExists>
+            </not>
+        </preConditions>
+        <comment>Creating lure comment sequence</comment>
+
+        <createSequence incrementBy="1"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="S_LURE_COMMENT_ID"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet id="changelog_create_lure_comment_table.xml" author="Hanna_Sira">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="T_LURE_COMMENT" schemaName="public"/>
+            </not>
+        </preConditions>
+        <comment>Creating lure comment table</comment>
+
+        <createTable tableName="T_LURE_COMMENT" remarks="lure comment">
+            <column name="A_COMMENT_ID" type="NUMBER" remarks="Comment id" defaultValueSequenceNext="S_LURE_COMMENT_ID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_T_LURE_COMMENT"></constraints>
+            </column>
+            <column name="A_COMMENT_TEXT" type="TEXT" remarks="Comment"></column>
+            <column name="A_COMMENT_AUTH" type="VARCHAR2(100)" remarks="Comment author"></column>
+            <column name="A_COMMENT_DATE" type="TIMESTAMP" remarks="Comment date"></column>
+            <column name="A_LURE_ID" type="NUMBER" remarks="Reference to lure">
+                <constraints nullable="false" foreignKeyName="FK_T_LURE_COMMENT" referencedTableName="T_LURE" referencedColumnNames="A_LURE_ID"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
